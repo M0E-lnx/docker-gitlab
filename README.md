@@ -2,7 +2,7 @@
 
 [![Deploy to Tutum](https://s.tutum.co/deploy-to-tutum.svg)](https://dashboard.tutum.co/stack/deploy/)
 
-# sameersbn/gitlab:8.4.1
+# sameersbn/gitlab:8.4.2
 
 - [Introduction](#introduction)
     - [Changelog](Changelog.md)
