@@ -1,7 +1,7 @@
-FROM sameersbn/ubuntu:14.04.20160121
+FROM pyro225/ubuntu-32bit:latest
 MAINTAINER sameer@damagehead.com
 
-ENV GITLAB_VERSION=8.4.1 \
+ENV GITLAB_VERSION=8.4.2 \
     GITLAB_SHELL_VERSION=2.6.10 \
     GITLAB_WORKHORSE_VERSION=0.6.1 \
     GITLAB_USER="git" \
@@ -31,7 +31,7 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E1DD270288B4E60
       git-core ruby2.1 python2.7 python-docutils nodejs gettext-base \
       libmysqlclient18 libpq5 zlib1g libyaml-0-2 libssl1.0.0 \
       libgdbm3 libreadline6 libncurses5 libffi6 \
-      libxml2 libxslt1.1 libcurl3 libicu52 \
+      libxml2 libxslt1.1 libcurl3 libicu52 nano \
  && update-locale LANG=C.UTF-8 LC_MESSAGES=POSIX \
  && locale-gen en_US.UTF-8 \
  && dpkg-reconfigure locales \
