@@ -73,6 +73,9 @@ exec_as_git git clone -q -b v${GITLAB_VERSION} --depth 1 ${GITLAB_CLONE_URL} ${G
 exec_as_git sed -i "/headers\['Strict-Transport-Security'\]/d" ${GITLAB_INSTALL_DIR}/app/controllers/application_controller.rb
 
 cd ${GITLAB_INSTALL_DIR}
+exec_as_git git clone https://gitlab.com/esr/irker.git
+
+cd ${GITLAB_INSTALL_DIR}
 
 # install gems, use local cache if available
 if [[ -d ${GEM_CACHE_DIR} ]]; then
@@ -208,6 +211,18 @@ stopsignal=QUIT
 stdout_logfile=${GITLAB_LOG_DIR}/supervisor/%(program_name)s.log
 stderr_logfile=${GITLAB_LOG_DIR}/supervisor/%(program_name)s.log
 EOF
+
+# Configure supervisord to start irkerd
+cat > /etc/supervisor/conf.d/irkerd.conf <<EOF
+[program:irkerd]
+priority=10
+user=root
+directory=${GITLAB_INSTALL_DIR}/irker
+command=${GITLAB_INSTALL_DIR}/irker/irkerd -d debug -l ${GITLAB_INSTALL_DIR}/log/gitlab-irkerd.log
+autostart=true
+autorestart=true
+EOF
+
 
 # configure supervisord to start sidekiq
 cat > /etc/supervisor/conf.d/sidekiq.conf <<EOF
