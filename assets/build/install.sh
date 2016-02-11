@@ -218,7 +218,7 @@ cat > /etc/supervisor/conf.d/irkerd.conf <<EOF
 priority=10
 user=root
 directory=${GITLAB_INSTALL_DIR}/irker
-command=${GITLAB_INSTALL_DIR}/irker/irkerd -d debug -l ${GITLAB_INSTALL_DIR}/log/gitlab-irkerd.log
+command=${GITLAB_INSTALL_DIR}/irker/irkerd -n vlGitLab.d -d debug -l ${GITLAB_INSTALL_DIR}/log/gitlab-irkerd.log
 autostart=true
 autorestart=true
 EOF
