@@ -1,8 +1,15 @@
-[![Docker Repository on Quay.io](https://quay.io/repository/sameersbn/gitlab/status "Docker Repository on Quay.io")](https://quay.io/repository/sameersbn/gitlab) [![](https://badge.imagelayers.io/sameersbn/gitlab.svg)](https://imagelayers.io/?images=sameersbn/gitlab:latest 'Get your own badge on imagelayers.io')
+# docker-gitlab:8.5.0 (forked from sameersbn/gitlab:8.4.2)
+Dockerized version of gitlab modified to run on 32-bit hardware.
+This was initially forked from sameersbn/gitlab:8.4.2 and changed a bit.
 
-[![Deploy to Tutum](https://s.tutum.co/deploy-to-tutum.svg)](https://dashboard.tutum.co/stack/deploy/)
+The following changes have been made to the original image.
+- Changed base image to a 32-bit image for running on 32-bit hardware.
+- Gitlab version update to 8.5.0 (updates constantly)
+- Gitlab workhorse update to 0.6.5
+- Bundled irker (@ version 2.16)
 
-# sameersbn/gitlab:8.4.2
+
+The following documentation is from the upstream project and should still apply to this project.
 
 - [Introduction](#introduction)
     - [Changelog](Changelog.md)

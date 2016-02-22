@@ -1,9 +1,10 @@
 FROM pyro225/ubuntu-32bit:latest
 MAINTAINER sameer@damagehead.com
 
-ENV GITLAB_VERSION=8.4.4 \
+ENV GITLAB_VERSION=8.5.0 \
     GITLAB_SHELL_VERSION=2.6.10 \
-    GITLAB_WORKHORSE_VERSION=0.6.1 \
+    GITLAB_WORKHORSE_VERSION=0.6.5 \
+    GITLAB_IRKER_VERSION=2.16 \
     GITLAB_USER="git" \
     GITLAB_HOME="/home/git" \
     GITLAB_LOG_DIR="/var/log/gitlab" \

@@ -4,6 +4,7 @@ set -e
 GITLAB_CLONE_URL=https://gitlab.com/gitlab-org/gitlab-ce.git
 GITLAB_SHELL_CLONE_URL=https://gitlab.com/gitlab-org/gitlab-shell.git
 GITLAB_WORKHORSE_CLONE_URL=https://gitlab.com/gitlab-org/gitlab-workhorse.git
+GITLAB_IRKER_CLONE_URL=https://gitlab.com/esr/irker.git
 
 GEM_CACHE_DIR="${GITLAB_BUILD_DIR}/cache"
 
@@ -73,7 +74,7 @@ exec_as_git git clone -q -b v${GITLAB_VERSION} --depth 1 ${GITLAB_CLONE_URL} ${G
 exec_as_git sed -i "/headers\['Strict-Transport-Security'\]/d" ${GITLAB_INSTALL_DIR}/app/controllers/application_controller.rb
 
 cd ${GITLAB_INSTALL_DIR}
-exec_as_git git clone https://gitlab.com/esr/irker.git
+exec_as_git git clone -b ${GITLAB_IRKER_VERSION} ${GITLAB_IRKER_CLONE_URL}
 
 cd ${GITLAB_INSTALL_DIR}
 
