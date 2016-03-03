@@ -1,6 +1,10 @@
 # Changelog
 
 This file only reflects the changes that are made in this image. Please refer to the upstream GitLab [CHANGELOG](https://gitlab.com/gitlab-org/gitlab-ce/blob/master/CHANGELOG) for the list of changes in GitLab.
+**8.5.2**
+- Updated to gitlab 8.5.2
+- Updated to gitlab-workhorse v0.7.0
+
 **8.5.0**
 - Updated to gitlab 8.5.0
 - Irker is now bundled into this (upstream did not come like this)
