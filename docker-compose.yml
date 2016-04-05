@@ -39,6 +39,13 @@ gitlab:
     - GITLAB_BACKUP_SCHEDULE=daily
     - GITLAB_BACKUP_TIME=01:00
 
+    - GITLAB_DOWNLOADS_DIR=/home/git/data/tmp/downloads
+    - GITLAB_LFS_ENABLED=true
+    - GITLAB_LFS_OBJECTS_DIR=/home/git/data/shared/lfs-objects
+    - GITLAB_SHARED_DIR=/home/git/data/shared
+    - GITLAB_ARTIFACTS_ENABLED=true
+    - GITLAB_ARTIFACTS_DIR=/home/git/data/shared/artifacts
+
     - SMTP_ENABLED=false
     - SMTP_DOMAIN=www.example.com
     - SMTP_HOST=smtp.gmail.com
@@ -55,6 +62,17 @@ gitlab:
     - IMAP_PASS=password
     - IMAP_SSL=true
     - IMAP_STARTTLS=false
+
+    - OAUTH_BLOCK_AUTO_CREATER_USERS=false
+    - OAUTH_AUTO_SIGNIN_WITH_PROVIDER=github,bitbucket,google_oauth2
+    - OAUTH_BITBUCKET_APP_SECRET=bitbucket-app-secret-here
+    - OAUTH_BITBUCKET_API_KEY=bitbucket-api-key-here
+    - OAUTH_ALLOW_SSO=true
+    - OAUTH_GITHUB_API_KEY=github-api-key-here
+    - OAUTH_GITHUB_APP_SECRET=github-app-secret-here
+    - OAUTH_GOOGLE_API_KEY=really-long-alphanumeric-google-generated-key-goes-here
+    - OAUTH_GOOGLE_APP_SECRET=random-generated-google-app-secrete-goes-here
+
   volumes:
     - /srv/docker/gitlab/gitlab:/home/git/data
 redis:
