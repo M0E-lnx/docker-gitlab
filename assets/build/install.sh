@@ -9,7 +9,7 @@ GITLAB_IRKER_CLONE_URL=https://gitlab.com/esr/irker.git
 GEM_CACHE_DIR="${GITLAB_BUILD_DIR}/cache"
 
 BUILD_DEPENDENCIES="gcc g++ make patch pkg-config cmake paxctl \
-  libc6-dev ruby2.1-dev golang-go \
+  libc6-dev ruby2.1-dev \
   libmysqlclient-dev libpq-dev zlib1g-dev libyaml-dev libssl-dev \
   libgdbm-dev libreadline-dev libncurses5-dev libffi-dev \
   libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev"
@@ -22,10 +22,6 @@ exec_as_git() {
     sudo -HEu ${GITLAB_USER} "$@"
   fi
 }
-
-# ppa for golang1.5
-apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv B0B8B106A0CA2F79FBB616DBA65E2E5D742A38EE
-echo "deb http://ppa.launchpad.net/evarlast/golang1.5/ubuntu trusty main" >> /etc/apt/sources.list
 
 # install build dependencies for gem installation
 apt-get update
@@ -61,19 +57,28 @@ exec_as_git ./bin/install
 exec_as_git rm -rf ${GITLAB_HOME}/repositories
 
 echo "Cloning gitlab-workhorse v.${GITLAB_WORKHORSE_VERSION}..."
-exec_as_git git clone -q -b ${GITLAB_WORKHORSE_VERSION} --depth 1 ${GITLAB_WORKHORSE_CLONE_URL} ${GITLAB_WORKHORSE_INSTALL_DIR}
+exec_as_git git clone -q -b v${GITLAB_WORKHORSE_VERSION} --depth 1 ${GITLAB_WORKHORSE_CLONE_URL} ${GITLAB_WORKHORSE_INSTALL_DIR}
+
+echo "Downloading Go ${GOLANG_VERSION}..."
+wget -cnv https://storage.googleapis.com/golang/go${GOLANG_VERSION}.linux-386.tar.gz -P ${GITLAB_BUILD_DIR}/
+tar -xf ${GITLAB_BUILD_DIR}/go${GOLANG_VERSION}.linux-386.tar.gz -C /tmp/
 
 cd ${GITLAB_WORKHORSE_INSTALL_DIR}
-make install
+PATH=/tmp/go/bin:$PATH GOROOT=/tmp/go make install
+
+# remove go
+rm -rf ${GITLAB_BUILD_DIR}/go${GOLANG_VERSION}.linux-amd64.tar.gz /tmp/go
 
 # shallow clone gitlab-ce
-echo "Cloning gitlab-ce v.${GITLAB_VERSION}..."
+echo "Cloning gitlab-ce v${GITLAB_VERSION}..."
+echo "git clone -q -b v${GITLAB_VERSION} --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}"
 exec_as_git git clone -q -b v${GITLAB_VERSION} --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
 
 # remove HSTS config from the default headers, we configure it in nginx
 exec_as_git sed -i "/headers\['Strict-Transport-Security'\]/d" ${GITLAB_INSTALL_DIR}/app/controllers/application_controller.rb
 
 cd ${GITLAB_INSTALL_DIR}
+echo "Cloning irker ${GITLAB_IRKER_VERSION} from ${GITLAB_IRKER_CLONE_URL}"
 exec_as_git git clone -b ${GITLAB_IRKER_VERSION} ${GITLAB_IRKER_CLONE_URL}
 
 cd ${GITLAB_INSTALL_DIR}
@@ -266,6 +271,7 @@ command=/usr/local/bin/gitlab-workhorse
   -authBackend http://127.0.0.1:8080{{GITLAB_RELATIVE_URL_ROOT}}
   -authSocket ${GITLAB_INSTALL_DIR}/tmp/sockets/gitlab.socket
   -documentRoot ${GITLAB_INSTALL_DIR}/public
+  -proxyHeadersTimeout {{GITLAB_WORKHORSE_TIMEOUT}}
 user=git
 autostart=true
 autorestart=true

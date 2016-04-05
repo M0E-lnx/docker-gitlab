@@ -1,10 +1,11 @@
-FROM pyro225/ubuntu-32bit:latest
-MAINTAINER sameer@damagehead.com
+FROM m0elnx/ubuntu-32bit:latest
+MAINTAINER M0E.lnx@gmail.com
 
-ENV GITLAB_VERSION=8.5.2 \
-    GITLAB_SHELL_VERSION=2.6.10 \
-    GITLAB_WORKHORSE_VERSION=v0.7.0 \
-    GITLAB_IRKER_VERSION=2.16 \
+ENV GITLAB_VERSION=8.6.4 \
+    GITLAB_SHELL_VERSION=2.6.12 \
+    GITLAB_WORKHORSE_VERSION=0.7.1 \
+    GOLANG_VERSION=1.5.3 \
+    GITLAB_IRKER_VERSION=2.17 \
     GITLAB_USER="git" \
     GITLAB_HOME="/home/git" \
     GITLAB_LOG_DIR="/var/log/gitlab" \
@@ -17,7 +18,7 @@ ENV GITLAB_INSTALL_DIR="${GITLAB_HOME}/gitlab" \
     GITLAB_DATA_DIR="${GITLAB_HOME}/data" \
     GITLAB_BUILD_DIR="${GITLAB_CACHE_DIR}/build" \
     GITLAB_RUNTIME_DIR="${GITLAB_CACHE_DIR}/runtime"
-
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y wget
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E1DD270288B4E6030699E45FA1715D88E1DF1F24 \
  && echo "deb http://ppa.launchpad.net/git-core/ppa/ubuntu trusty main" >> /etc/apt/sources.list \
  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 80F70E11F0F0D5F10CB20E62F5DA5F09C3173AA6 \
@@ -32,10 +33,10 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E1DD270288B4E60
       git-core ruby2.1 python2.7 python-docutils nodejs gettext-base \
       libmysqlclient18 libpq5 zlib1g libyaml-0-2 libssl1.0.0 \
       libgdbm3 libreadline6 libncurses5 libffi6 \
-      libxml2 libxslt1.1 libcurl3 libicu52 nano python3\
+      libxml2 libxslt1.1 libcurl3 libicu52 \
  && update-locale LANG=C.UTF-8 LC_MESSAGES=POSIX \
  && locale-gen en_US.UTF-8 \
- && dpkg-reconfigure locales \
+ && DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales \
  && gem install --no-document bundler \
  && rm -rf /var/lib/apt/lists/*
 

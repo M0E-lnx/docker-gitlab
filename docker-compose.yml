@@ -1,15 +1,16 @@
 postgresql:
   restart: always
-  image: sameersbn/postgresql:9.4-12
+  image: m0elnx/postgresql-32bit:latest
   environment:
     - DB_USER=gitlab
     - DB_PASS=password
     - DB_NAME=gitlabhq_production
+    - DB_EXTENSION=pg_trgm
   volumes:
     - /srv/docker/gitlab/postgresql:/var/lib/postgresql
 gitlab:
   restart: always
-  image: sameersbn/gitlab:8.4.1
+  image: m0elnx/gitlab-32bit:latest
   links:
     - redis:redisio
     - postgresql:postgresql
@@ -58,6 +59,6 @@ gitlab:
     - /srv/docker/gitlab/gitlab:/home/git/data
 redis:
   restart: always
-  image: sameersbn/redis:latest
+  image: m0elnx/redis-32bit:latest
   volumes:
     - /srv/docker/gitlab/redis:/var/lib/redis

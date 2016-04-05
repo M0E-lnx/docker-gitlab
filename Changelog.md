@@ -16,6 +16,60 @@ This file only reflects the changes that are made in this image. Please refer to
 - gitlab: Upgrade to CE v8.4.2
 - Dockerfile: Modify FROM directive to build on 32-bit
 
+**8.6.4**
+- gitlab: upgrade to CE v8.6.4
+
+**8.6.3**
+- gitlab-shell: upgrade to v.2.6.12
+- gitlab: upgrade to CE v8.6.3
+
+**8.6.2**
+- gitlab: upgrade to CE v8.6.2
+
+**8.6.1**
+- gitlab: upgrade to CE v8.6.1
+
+**8.6.0**
+- gitlab-shell: upgrade to v.2.6.11
+- gitlab-workhorse: upgrade to v0.7.1
+- gitlab: upgrade to CE v8.6.0
+- exposed configuration parameters for auth0 OAUTH support
+- fixed relative_url support
+
+**8.5.8**
+- gitlab: upgrade to CE v8.5.8
+
+**8.5.7**
+- gitlab: upgrade to CE v8.5.7
+
+**8.5.5**
+- gitlab: upgrade to CE v8.5.5
+
+**8.5.4**
+- gitlab: upgrade to CE v8.5.4
+
+**8.5.3**
+- gitlab: upgrade to CE v8.5.3
+
+**8.5.1**
+- gitlab: upgrade to CE v8.5.1
+
+**8.5.0**
+- gitlab-workhorse: upgrade to v0.6.4
+- gitlab: upgrade to CE v8.5.0
+- firstrun: expose `GITLAB_ROOT_EMAIL` configuration option
+- expose `OAUTH_AUTO_LINK_SAML_USER` configuration parameter
+
+**8.4.4**
+- gitlab: upgrade to CE v8.4.4
+
+**8.4.3**
+- gitlab: upgrade to CE v8.4.3
+
+**8.4.2**
+- gitlab-workhorse: upgrade to v0.6.2
+- gitlab: upgrade to CE v8.4.2
+
 **8.4.1**
 - gitlab: upgrade to CE v8.4.1
 
@@ -49,7 +103,7 @@ This file only reflects the changes that are made in this image. Please refer to
 - renamed config `CA_CERTIFICATES_PATH` to `SSL_CA_CERTIFICATES_PATH`
 - renamed config `GITLAB_HTTPS_HSTS_ENABLED` to `NGINX_HSTS_ENABLED`
 - renamed config `GITLAB_HTTPS_HSTS_MAXAGE` to `NGINX_HSTS_MAXAGE`
-- renamed config `GITLAB_BACKUPS` to `GITLAB_BACKUPS_SCHEDULE`
+- renamed config `GITLAB_BACKUPS` to `GITLAB_BACKUP_SCHEDULE`
 - gitlab-workhorse: upgrade to v0.5.1
 - gitlab: upgrade to CE v8.3.0
 - expose `GITLAB_MAX_OBJECT_SIZE` configuration parameter
