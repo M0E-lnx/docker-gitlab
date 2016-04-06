@@ -1,8 +1,5 @@
-[![Docker Repository on Quay.io](https://quay.io/repository/sameersbn/gitlab/status "Docker Repository on Quay.io")](https://quay.io/repository/sameersbn/gitlab) [![](https://badge.imagelayers.io/sameersbn/gitlab.svg)](https://imagelayers.io/?images=sameersbn/gitlab:latest 'Get your own badge on imagelayers.io')
-
-[![Deploy to Tutum](https://s.tutum.co/deploy-to-tutum.svg)](https://dashboard.tutum.co/stack/deploy/)
-
-# sameersbn/gitlab:8.6.4
+This is a fork of sameersbn/gitlab (as of version 8.6.4) modified to run in a 32-bit
+environment.  The documentation provided by sameersbn still applies to this fork
 
 - [Introduction](#introduction)
     - [Changelog](Changelog.md)
