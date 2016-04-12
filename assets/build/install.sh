@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 
-GITLAB_CLONE_URL=https://gitlab.com/gitlab-org/gitlab-ce.git
-GITLAB_SHELL_CLONE_URL=https://gitlab.com/gitlab-org/gitlab-shell.git
-GITLAB_WORKHORSE_CLONE_URL=https://gitlab.com/gitlab-org/gitlab-workhorse.git
-GITLAB_IRKER_CLONE_URL=https://gitlab.com/esr/irker.git
+GITLAB_CLONE_URL=https://github.com/gitlabhq/gitlabhq.git #http://gitlab.com/gitlab-org/gitlab-ce.git
+GITLAB_SHELL_CLONE_URL=http://github.com/gitlabhq/gitlab-shell.git #http://gitlab.com/gitlab-org/gitlab-shell.git
+GITLAB_WORKHORSE_CLONE_URL=http://gitlab.com/gitlab-org/gitlab-workhorse.git
+GITLAB_IRKER_CLONE_URL=http://gitlab.com/esr/irker.git
 
 GEM_CACHE_DIR="${GITLAB_BUILD_DIR}/cache"
 
@@ -46,9 +46,9 @@ EOF
 exec_as_git git config --global core.autocrlf input
 
 # install gitlab-shell
-echo "Cloning gitlab-shell v.${GITLAB_SHELL_VERSION}..."
-exec_as_git git clone -q -b v${GITLAB_SHELL_VERSION} --depth 1 ${GITLAB_SHELL_CLONE_URL} ${GITLAB_SHELL_INSTALL_DIR}
-
+echo "Cloning gitlab-shell v${GITLAB_SHELL_VERSION}..."
+echo "git clone -q -b v${GITLAB_SHELL_VERSION} --depth=1 ${GITLAB_SHELL_CLONE_URL} ${GITLAB_SHELL_INSTALL_DIR}"
+exec_as_git git clone -q -b v${GITLAB_SHELL_VERSION} --depth=1 ${GITLAB_SHELL_CLONE_URL} ${GITLAB_SHELL_INSTALL_DIR}
 cd ${GITLAB_SHELL_INSTALL_DIR}
 exec_as_git cp -a ${GITLAB_SHELL_INSTALL_DIR}/config.yml.example ${GITLAB_SHELL_INSTALL_DIR}/config.yml
 exec_as_git ./bin/install
@@ -56,8 +56,9 @@ exec_as_git ./bin/install
 # remove unused repositories directory created by gitlab-shell install
 exec_as_git rm -rf ${GITLAB_HOME}/repositories
 
-echo "Cloning gitlab-workhorse v.${GITLAB_WORKHORSE_VERSION}..."
-exec_as_git git clone -q -b v${GITLAB_WORKHORSE_VERSION} --depth 1 ${GITLAB_WORKHORSE_CLONE_URL} ${GITLAB_WORKHORSE_INSTALL_DIR}
+echo "Cloning gitlab-workhorse v${GITLAB_WORKHORSE_VERSION}..."
+echo "git clone -q -b v${GITLAB_WORKHORSE_VERSION} --depth 1 ${GITLAB_WORKHORSE_CLONE_URL} ${GITLAB_WORKHORSE_INSTALL_DIR}"
+exec_as_git git clone -q -b v${GITLAB_WORKHORSE_VERSION} ${GITLAB_WORKHORSE_CLONE_URL} ${GITLAB_WORKHORSE_INSTALL_DIR}
 
 echo "Downloading Go ${GOLANG_VERSION}..."
 wget -cnv https://storage.googleapis.com/golang/go${GOLANG_VERSION}.linux-386.tar.gz -P ${GITLAB_BUILD_DIR}/
@@ -67,12 +68,12 @@ cd ${GITLAB_WORKHORSE_INSTALL_DIR}
 PATH=/tmp/go/bin:$PATH GOROOT=/tmp/go make install
 
 # remove go
-rm -rf ${GITLAB_BUILD_DIR}/go${GOLANG_VERSION}.linux-amd64.tar.gz /tmp/go
+rm -rf ${GITLAB_BUILD_DIR}/go${GOLANG_VERSION}.linux-386.tar.gz /tmp/go
 
 # shallow clone gitlab-ce
 echo "Cloning gitlab-ce v${GITLAB_VERSION}..."
 echo "git clone -q -b v${GITLAB_VERSION} --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}"
-exec_as_git git clone -q -b v${GITLAB_VERSION} --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
+exec_as_git git clone -q -b v${GITLAB_VERSION} ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
 
 # remove HSTS config from the default headers, we configure it in nginx
 exec_as_git sed -i "/headers\['Strict-Transport-Security'\]/d" ${GITLAB_INSTALL_DIR}/app/controllers/application_controller.rb
