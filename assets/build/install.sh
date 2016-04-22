@@ -48,7 +48,7 @@ exec_as_git git config --global core.autocrlf input
 # install gitlab-shell
 echo "Cloning gitlab-shell v${GITLAB_SHELL_VERSION}..."
 echo "git clone -q -b v${GITLAB_SHELL_VERSION} --depth=1 ${GITLAB_SHELL_CLONE_URL} ${GITLAB_SHELL_INSTALL_DIR}"
-exec_as_git git clone -q -b v${GITLAB_SHELL_VERSION} ${GITLAB_SHELL_CLONE_URL} ${GITLAB_SHELL_INSTALL_DIR}
+exec_as_git git clone --depth 1 -q -b v${GITLAB_SHELL_VERSION} ${GITLAB_SHELL_CLONE_URL} ${GITLAB_SHELL_INSTALL_DIR}
 cd ${GITLAB_SHELL_INSTALL_DIR}
 exec_as_git cp -a ${GITLAB_SHELL_INSTALL_DIR}/config.yml.example ${GITLAB_SHELL_INSTALL_DIR}/config.yml
 exec_as_git ./bin/install
@@ -58,7 +58,7 @@ exec_as_git rm -rf ${GITLAB_HOME}/repositories
 
 echo "Cloning gitlab-workhorse v${GITLAB_WORKHORSE_VERSION}..."
 echo "git clone -q -b v${GITLAB_WORKHORSE_VERSION} --depth 1 ${GITLAB_WORKHORSE_CLONE_URL} ${GITLAB_WORKHORSE_INSTALL_DIR}"
-exec_as_git git clone -q -b v${GITLAB_WORKHORSE_VERSION} ${GITLAB_WORKHORSE_CLONE_URL} ${GITLAB_WORKHORSE_INSTALL_DIR}
+exec_as_git git clone --depth 1 -q -b v${GITLAB_WORKHORSE_VERSION} ${GITLAB_WORKHORSE_CLONE_URL} ${GITLAB_WORKHORSE_INSTALL_DIR}
 
 echo "Downloading Go ${GOLANG_VERSION}..."
 wget -cnv https://storage.googleapis.com/golang/go${GOLANG_VERSION}.linux-386.tar.gz -P ${GITLAB_BUILD_DIR}/
@@ -73,14 +73,14 @@ rm -rf ${GITLAB_BUILD_DIR}/go${GOLANG_VERSION}.linux-386.tar.gz /tmp/go
 # shallow clone gitlab-ce
 echo "Cloning gitlab-ce v${GITLAB_VERSION}..."
 echo "git clone -q -b v${GITLAB_VERSION} --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}"
-exec_as_git git clone -q -b v${GITLAB_VERSION} ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
+exec_as_git git clone --depth 1 -q -b v${GITLAB_VERSION} ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
 
 # remove HSTS config from the default headers, we configure it in nginx
 exec_as_git sed -i "/headers\['Strict-Transport-Security'\]/d" ${GITLAB_INSTALL_DIR}/app/controllers/application_controller.rb
 
 cd ${GITLAB_INSTALL_DIR}
 echo "Cloning irker ${GITLAB_IRKER_VERSION} from ${GITLAB_IRKER_CLONE_URL}"
-exec_as_git git clone -b ${GITLAB_IRKER_VERSION} ${GITLAB_IRKER_CLONE_URL}
+exec_as_git git clone --depth 1 -b ${GITLAB_IRKER_VERSION} ${GITLAB_IRKER_CLONE_URL}
 
 cd ${GITLAB_INSTALL_DIR}
 
@@ -133,6 +133,9 @@ chmod +x /etc/init.d/gitlab
 
 # disable default nginx configuration and enable gitlab's nginx configuration
 rm -rf /etc/nginx/sites-enabled/default
+
+# Add Dockerfile lexer
+cp ${GITLAB_BUILD_DIR}/docker.rb /home/git/gitlab/vendor/bundle/ruby/*/gems/rouge-*/lib/rouge/lexers/
 
 # configure sshd
 sed -i \
