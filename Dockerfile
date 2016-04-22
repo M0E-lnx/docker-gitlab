@@ -1,8 +1,8 @@
 FROM m0elnx/ubuntu-32bit:latest
 MAINTAINER M0E.lnx@gmail.com
 
-ENV GITLAB_VERSION=8.6.7 \
-    GITLAB_SHELL_VERSION=2.6.12 \
+ENV GITLAB_VERSION=8.7.0 \
+    GITLAB_SHELL_VERSION=2.7.2 \
     GITLAB_WORKHORSE_VERSION=0.7.2 \
     GOLANG_VERSION=1.5.3 \
     GITLAB_IRKER_VERSION=2.17 \
@@ -37,7 +37,7 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E1DD270288B4E60
  && update-locale LANG=C.UTF-8 LC_MESSAGES=POSIX \
  && locale-gen en_US.UTF-8 \
  && DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales \
- && gem install --no-document bundler && gem install rouge-lexers-docker \
+ && gem install --no-document bundler \
  && rm -rf /var/lib/apt/lists/*
 
 COPY assets/build/ ${GITLAB_BUILD_DIR}/
