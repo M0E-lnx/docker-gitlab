@@ -1,4 +1,4 @@
-This is a fork of sameersbn/gitlab (as of version 8.6.4) modified to run in a 32-bit
+This is a fork of sameersbn/gitlab (as of version 8.6.4 and kept up to date) modified to run in a 32-bit
 environment.  The documentation provided by sameersbn still applies to this fork
 
 - [Introduction](#introduction)
