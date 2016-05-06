@@ -1,6 +1,9 @@
 # Changelog
 
 This file only reflects the changes that are made in this image. Please refer to the upstream GitLab [CHANGELOG](https://gitlab.com/gitlab-org/gitlab-ce/blob/master/CHANGELOG) for the list of changes in GitLab.
+**8.7.3**
+- Updated to gitlab ce version 8.7.3
+
 **8.7.0**
 - Updated to gitlab 8.7.0
 - Updated to gitlab-shell 2.7.2
