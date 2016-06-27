@@ -1,15 +1,17 @@
 FROM m0elnx/ubuntu-32bit:latest
 MAINTAINER M0E.lnx@gmail.com
 
-ENV GITLAB_VERSION=8.8.2 \
-    GITLAB_SHELL_VERSION=2.7.2 \
-    GITLAB_WORKHORSE_VERSION=0.7.2 \
+ENV GITLAB_VERSION=8.9.1 \
+    GITLAB_SHELL_VERSION=3.0.0 \
+    GITLAB_WORKHORSE_VERSION=0.7.5 \
     GOLANG_VERSION=1.5.3 \
     GITLAB_IRKER_VERSION=2.17 \
     GITLAB_USER="git" \
     GITLAB_HOME="/home/git" \
     GITLAB_LOG_DIR="/var/log/gitlab" \
     GITLAB_CACHE_DIR="/etc/docker-gitlab" \
+    TERM=linux \
+    EDITOR=nano \
     RAILS_ENV=production
 
 ENV GITLAB_INSTALL_DIR="${GITLAB_HOME}/gitlab" \

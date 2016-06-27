@@ -75,6 +75,12 @@ echo "Cloning gitlab-ce v${GITLAB_VERSION}..."
 echo "git clone -q -b v${GITLAB_VERSION} --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}"
 exec_as_git git clone --depth 1 -q -b v${GITLAB_VERSION} ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
 
+# Apply patch for compiling assets when redis is not running
+( cd $GITLAB_INSTALL_DIR || exit 1
+  patch -Np0 --verbose -i ${GITLAB_BUILD_DIR}/gitlab-current-settings.patch || exit 1
+) || exit 1
+
+
 # remove HSTS config from the default headers, we configure it in nginx
 exec_as_git sed -i "/headers\['Strict-Transport-Security'\]/d" ${GITLAB_INSTALL_DIR}/app/controllers/application_controller.rb
 
