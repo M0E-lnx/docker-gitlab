@@ -2,37 +2,85 @@
 
 This file only reflects the changes that are made in this image. Please refer to the upstream GitLab [CHANGELOG](https://gitlab.com/gitlab-org/gitlab-ce/blob/master/CHANGELOG) for the list of changes in GitLab.
 
+**8.10.0**
+- gitlab: upgrade to CE v8.10.0
+
+**8.9.6**
+- gitlab: upgrade to CE v8.9.6
+
+**8.9.5**
+- gitlab: upgrade to CE v8.9.5
+
+**8.9.4**
+- gitlab: upgrade to CE v8.9.4
+
+**8.9.3**
+- gitlab: upgrade to CE v8.9.3
+
+**8.9.2**
+- gitlab: upgrade to CE v8.9.2
+
+**8.9.1**
+- gitlab: upgrade to CE v8.9.1
+
+**8.9.0**
+- gitlab: upgrade to CE v8.9.0
+
+**8.8.5-1**
+- added GitLab Container Registry support
+- added `SSL_CIPHERS` option to change ciphers of the nginx
+
+**8.8.5**
+- gitlab: upgrade to CE v8.8.5
+
+**8.8.4**
+- gitlab: upgrade to CE v8.8.4
+- added `GITLAB_PROJECTS_LIMIT` configuration option
+
+**8.8.3**
+- gitlab: upgrade to CE v8.8.3
+
+**8.8.2**
+- gitlab: upgrade to CE v8.8.2
+
 **8.8.1**
-- Updated to gitlab ce version 8.8.1
+- gitlab: upgrade to CE v8.8.1
+
+**8.8.0**
+- gitlab: upgrade to CE v8.8.0
+- oauth: exposed `OAUTH_GITHUB_URL` and `OAUTH_GITHUB_VERIFY_SSL` options for users for GitHub Enterprise.
+
+**8.7.6**
+- gitlab: upgrade to CE v8.7.6
 
 **8.7.5**
-- Updated to gitlab ce version 8.7.5
-
-**8.7.4**
-- Updated to gitlab ce version 8.7.4
+- gitlab: upgrade to CE v8.7.5
 
 **8.7.3**
-- Updated to gitlab ce version 8.7.3
+- gitlab: upgrade to CE v8.7.3
+
+**8.7.2**
+- gitlab: upgrade to CE v8.7.2
+
+**8.7.1**
+- gitlab: upgrade to CE v8.7.1
 
 **8.7.0**
-- Updated to gitlab 8.7.0
-- Updated to gitlab-shell 2.7.2
-- Added Dockerfile lexer for Dockerfile syntax highlighting
+- gitlab-shell: upgrade to v.2.7.2
+- gitlab: upgrade to CE v8.7.0
+- SSO: `OAUTH_ALLOW_SSO` now specifies a comma separated list of providers.
+- OAuth: Added `OAUTH_EXTERNAL_PROVIDERS` to specify external oauth providers.
+- Exposed `GITLAB_TRUSTED_PROXIES` configuration parameter
 
-**8.5.2**
-- Updated to gitlab 8.5.2
-- Updated to gitlab-workhorse v0.7.0
+**8.6.7**
+- added `GITLAB_SIGNUP_ENABLED` option to enable/disable signups
+- gitlab: upgrade to CE v8.6.7
 
-**8.5.0**
-- Updated to gitlab 8.5.0
-- Irker is now bundled into this (upstream did not come like this)
-- Added ability to clone irker @ a specific tag (defined @ Dockerfile)
-- Use workhorse 0.6.5
+**8.6.6**
+- gitlab: upgrade to CE v8.6.6
 
-**8.4.2**
-- Forked from sameersbn/docker-gitlab into M0E-lnx/docker-gitlab
-- gitlab: Upgrade to CE v8.4.2
-- Dockerfile: Modify FROM directive to build on 32-bit
+**8.6.5**
+- gitlab: upgrade to CE v8.6.5
 
 **8.6.4**
 - gitlab: upgrade to CE v8.6.4
