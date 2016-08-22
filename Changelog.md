@@ -2,6 +2,31 @@
 
 This file only reflects the changes that are made in this image. Please refer to the upstream GitLab [CHANGELOG](https://gitlab.com/gitlab-org/gitlab-ce/blob/master/CHANGELOG) for the list of changes in GitLab.
 
+**8.10.7**
+- gitlab: upgrade to CE v8.10.7
+
+**8.10.6**
+- gitlab: upgrade to CE v8.10.6
+
+**8.10.5**
+- gitlab: upgrade to CE v8.10.5
+
+**8.10.4**
+- gitlab: upgrade to CE v8.10.4
+
+**8.10.3**
+- gitlab: upgrade to CE v8.10.3
+
+**8.10.2-1**
+- Fix `OAUTH_GOOGLE_RESTRICT_DOMAIN`
+
+**8.10.2**
+- gitlab: upgrade to CE v8.10.2
+- Improve `OAUTH_GOOGLE_RESTRICT_DOMAIN` for multiple restricted domains
+
+**8.10.1**
+- gitlab: upgrade to CE v8.10.1
+
 **8.10.0**
 - gitlab: upgrade to CE v8.10.0
 

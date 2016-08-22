@@ -1,5 +1,5 @@
-FROM m0elnx/ubuntu-32bit:latest
-MAINTAINER M0E-lnx
+FROM sameersbn/ubuntu:14.04.20160817
+MAINTAINER sameer@damagehead.com
 
 ENV GITLAB_VERSION=8.10.7 \
     GOLANG_VERSION=1.5.3 \
@@ -9,10 +9,7 @@ ENV GITLAB_VERSION=8.10.7 \
     GITLAB_HOME="/home/git" \
     GITLAB_LOG_DIR="/var/log/gitlab" \
     GITLAB_CACHE_DIR="/etc/docker-gitlab" \
-    RAILS_ENV=production \
-	GITLAB_IRKER_VERSION=2.17 \
-	TERM=linux \
-	EDITOR=nano
+    RAILS_ENV=production
 
 ENV GITLAB_INSTALL_DIR="${GITLAB_HOME}/gitlab" \
     GITLAB_SHELL_INSTALL_DIR="${GITLAB_HOME}/gitlab-shell" \
@@ -42,10 +39,10 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E1DD270288B4E60
  && gem install --no-document bundler \
  && rm -rf /var/lib/apt/lists/*
 
-COPY assets-32bit/build/ ${GITLAB_BUILD_DIR}/
+COPY assets/build/ ${GITLAB_BUILD_DIR}/
 RUN bash ${GITLAB_BUILD_DIR}/install.sh
 
-COPY assets-32bit/runtime/ ${GITLAB_RUNTIME_DIR}/
+COPY assets/runtime/ ${GITLAB_RUNTIME_DIR}/
 COPY entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
 

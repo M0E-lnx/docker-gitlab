@@ -4,6 +4,7 @@ set -e
 GITLAB_CLONE_URL=https://github.com/gitlabhq/gitlabhq.git
 GITLAB_SHELL_URL=https://gitlab.com/gitlab-org/gitlab-shell/repository/archive.tar.gz
 GITLAB_WORKHORSE_URL=https://gitlab.com/gitlab-org/gitlab-workhorse/repository/archive.tar.gz
+GITLAB_IRKER_CLONE_URL=http://gitlab.com/esr/irker.git
 
 GEM_CACHE_DIR="${GITLAB_BUILD_DIR}/cache"
 
@@ -68,18 +69,23 @@ rm -rf ${GITLAB_BUILD_DIR}/gitlab-workhorse-${GITLAB_WORKHORSE_VERSION}.tar.gz
 chown -R ${GITLAB_USER}: ${GITLAB_WORKHORSE_INSTALL_DIR}
 
 echo "Downloading Go ${GOLANG_VERSION}..."
-wget -cnv https://storage.googleapis.com/golang/go${GOLANG_VERSION}.linux-amd64.tar.gz -P ${GITLAB_BUILD_DIR}/
-tar -xf ${GITLAB_BUILD_DIR}/go${GOLANG_VERSION}.linux-amd64.tar.gz -C /tmp/
+wget -cnv https://storage.googleapis.com/golang/go${GOLANG_VERSION}.linux-386.tar.gz -P ${GITLAB_BUILD_DIR}/
+tar -xf ${GITLAB_BUILD_DIR}/go${GOLANG_VERSION}.linux-386.tar.gz -C /tmp/
 
 cd ${GITLAB_WORKHORSE_INSTALL_DIR}
 PATH=/tmp/go/bin:$PATH GOROOT=/tmp/go make install
 
 # remove go
-rm -rf ${GITLAB_BUILD_DIR}/go${GOLANG_VERSION}.linux-amd64.tar.gz /tmp/go
+rm -rf ${GITLAB_BUILD_DIR}/go${GOLANG_VERSION}.linux-386.tar.gz /tmp/go
 
 # shallow clone gitlab-ce
 echo "Cloning gitlab-ce v.${GITLAB_VERSION}..."
 exec_as_git git clone -q -b v${GITLAB_VERSION} --depth 1 ${GITLAB_CLONE_URL} ${GITLAB_INSTALL_DIR}
+
+# Clone irker
+cd ${GITLAB_INSTALL_DIR}
+echo "Cloning irker ${GITLAB_IRKER_VERSION} from ${GITLAB_IRKER_CLONE_URL}"
+exec_as_git git clone -q --depth 1 -b ${GITLAB_IRKER_VERSION} ${GITLAB_IRKER_CLONE_URL}
 
 # remove HSTS config from the default headers, we configure it in nginx
 exec_as_git sed -i "/headers\['Strict-Transport-Security'\]/d" ${GITLAB_INSTALL_DIR}/app/controllers/application_controller.rb
@@ -222,6 +228,17 @@ autorestart=true
 stopsignal=QUIT
 stdout_logfile=${GITLAB_LOG_DIR}/supervisor/%(program_name)s.log
 stderr_logfile=${GITLAB_LOG_DIR}/supervisor/%(program_name)s.log
+EOF
+
+# Configure supervisord to start irkerd
+cat > /etc/supervisor/conf.d/irkerd.conf <<EOF
+[program:irkerd]
+priority=10
+user=root
+directory=${GITLAB_INSTALL_DIR}/irker
+command=${GITLAB_INSTALL_DIR}/irker/irkerd -n vlGitLab -d debug -l ${GITLAB_INSTALL_DIR}/log/gitlab-irkerd.log
+autostart=true
+autorestart=true
 EOF
 
 # configure supervisord to start sidekiq
