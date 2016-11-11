@@ -359,7 +359,8 @@ gitlab_configure_mail_delivery() {
     GITLAB_EMAIL_ENABLED \
     GITLAB_EMAIL \
     GITLAB_EMAIL_DISPLAY_NAME \
-    GITLAB_EMAIL_REPLY_TO
+    GITLAB_EMAIL_REPLY_TO \
+    GITLAB_EMAIL_SUBJECT_SUFFIX
 }
 
 gitlab_configure_mailroom() {
@@ -657,23 +658,23 @@ gitlab_configure_secrets() {
   fi
 
   if [[ -z $GITLAB_SECRETS_SECRET_KEY_BASE ]]; then
-     echo "ERROR: "
-     echo "  Please configure the GITLAB_SECRETS_SECRET_KEY_BASE parameter."
-     echo "  Cannot continue. Aborting..."
-     return 1
-   fi
- 
-   if [[ -z $GITLAB_SECRETS_OTP_KEY_BASE ]]; then
-     echo "ERROR: "
-     echo "  Please configure the GITLAB_SECRETS_OTP_KEY_BASE parameter."
-     echo "  Cannot continue. Aborting..."
-     return 1
-   fi
- 
-   update_template ${GITLAB_SECRETS_CONFIG} \
-   GITLAB_SECRETS_DB_KEY_BASE \
-   GITLAB_SECRETS_SECRET_KEY_BASE \
-   GITLAB_SECRETS_OTP_KEY_BASE
+    echo "ERROR: "
+    echo "  Please configure the GITLAB_SECRETS_SECRET_KEY_BASE parameter."
+    echo "  Cannot continue. Aborting..."
+    return 1
+  fi
+
+  if [[ -z $GITLAB_SECRETS_OTP_KEY_BASE ]]; then
+    echo "ERROR: "
+    echo "  Please configure the GITLAB_SECRETS_OTP_KEY_BASE parameter."
+    echo "  Cannot continue. Aborting..."
+    return 1
+  fi
+
+  update_template ${GITLAB_SECRETS_CONFIG} \
+  GITLAB_SECRETS_DB_KEY_BASE \
+  GITLAB_SECRETS_SECRET_KEY_BASE \
+  GITLAB_SECRETS_OTP_KEY_BASE
 }
 
 gitlab_configure_sidekiq() {
