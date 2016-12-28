@@ -489,20 +489,6 @@ gitlab_configure_oauth_twitter() {
   fi
 }
 
-gitlab_configure_oauth_authentiq() {
-  if [[ -n ${OAUTH_AUTHENTIQ_CLIENT_ID} && -n ${OAUTH_AUTHENTIQ_CLIENT_SECRET} ]]; then
-    echo "Configuring gitlab::oauth::authentiq..."
-    OAUTH_ENABLED=${OAUTH_ENABLED:-true}
-    update_template ${GITLAB_CONFIG} \
-      OAUTH_AUTHENTIQ_CLIENT_ID \
-      OAUTH_AUTHENTIQ_CLIENT_SECRET \
-      OAUTH_AUTHENTIQ_SCOPE \
-      OAUTH_AUTHENTIQ_REDIRECT_URI 
-  else
-    exec_as_git sed -i "/name: 'authentiq'/,/{{OAUTH_AUTHENTIQ_SCOPE}}/d" ${GITLAB_CONFIG}
-  fi
-}
-
 gitlab_configure_oauth_github() {
   if [[ -n ${OAUTH_GITHUB_API_KEY} && -n ${OAUTH_GITHUB_APP_SECRET} ]]; then
     echo "Configuring gitlab::oauth::github..."
@@ -637,7 +623,6 @@ gitlab_configure_oauth() {
   gitlab_configure_oauth_google
   gitlab_configure_oauth_facebook
   gitlab_configure_oauth_twitter
-  gitlab_configure_oauth_authentiq
   gitlab_configure_oauth_github
   gitlab_configure_oauth_gitlab
   gitlab_configure_oauth_bitbucket
@@ -845,13 +830,6 @@ gitlab_configure_lfs() {
   update_template ${GITLAB_CONFIG} \
     GITLAB_LFS_ENABLED \
     GITLAB_LFS_OBJECTS_DIR
-}
-
-gitlab_configure_mattermost() {
-  echo "Configuring gitlab::mattermost..."
-  update_template ${GITLAB_CONFIG} \
-    GITLAB_MATTERMOST_ENABLED \
-    GITLAB_MATTERMOST_URL
 }
 
 gitlab_configure_project_features() {
@@ -1264,7 +1242,6 @@ configure_gitlab() {
   gitlab_configure_ci
   gitlab_configure_artifacts
   gitlab_configure_lfs
-  gitlab_configure_mattermost
   gitlab_configure_project_features
   gitlab_configure_mail_delivery
   gitlab_configure_mailroom
@@ -1317,13 +1294,6 @@ migrate_database() {
       ;;
   esac
 
-  if [[ -z ${COUNT} || ${COUNT} -eq 0 ]]; then
-    echo "Setting up GitLab for firstrun. Please be patient, this could take a while..."
-    exec_as_git force=yes bundle exec rake gitlab:setup \
-      ${GITLAB_ROOT_PASSWORD:+GITLAB_ROOT_PASSWORD=$GITLAB_ROOT_PASSWORD} \
-      ${GITLAB_ROOT_EMAIL:+GITLAB_ROOT_EMAIL=$GITLAB_ROOT_EMAIL} >/dev/null
-  fi
-
   # migrate database if the gitlab version has changed.
   CACHE_VERSION=
   [[ -f ${GITLAB_TEMP_DIR}/VERSION ]] && CACHE_VERSION=$(cat ${GITLAB_TEMP_DIR}/VERSION)
@@ -1361,6 +1331,13 @@ migrate_database() {
 
     echo "${GITLAB_VERSION}" > ${GITLAB_TEMP_DIR}/VERSION
     rm -rf ${GITLAB_TEMP_DIR}/GITLAB_RELATIVE_URL_ROOT # force cache cleanup
+  fi
+
+  if [[ -z ${COUNT} || ${COUNT} -eq 0 ]]; then
+    echo "Setting up GitLab for firstrun. Please be patient, this could take a while..."
+    exec_as_git force=yes bundle exec rake gitlab:setup \
+      ${GITLAB_ROOT_PASSWORD:+GITLAB_ROOT_PASSWORD=$GITLAB_ROOT_PASSWORD} \
+      ${GITLAB_ROOT_EMAIL:+GITLAB_ROOT_EMAIL=$GITLAB_ROOT_EMAIL} >/dev/null
   fi
 
   # clear cache if relative_url has changed.
